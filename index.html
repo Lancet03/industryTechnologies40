@@ -1,54 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ilya Efremov ADB-22-07</title>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="waveWrapper waveAnimation">
+      <div class="waveWrapperInner bgTop">
+        <div
+          class="wave waveTop"
+          style="background-image: url('./assets/wave-top.png')"
+        ></div>
+      </div>
+      <div class="waveWrapperInner bgMiddle">
+        <div
+          class="wave waveMiddle"
+          style="background-image: url('./assets/wave-mid.png')"
+        ></div>
+      </div>
+      <div class="waveWrapperInner bgBottom">
+        <div
+          class="wave waveBottom"
+          style="background-image: url('./assets/wave-bot.png')"
+        ></div>
+      </div>
+    </div>
+
+    <canvas></canvas>
+
     <main>
-        <div class="student_data">
-            <p>Имя:</p><p>Илья</p>
-            <p>Фамилия:</p><p>Ефремов</p>
-            <p>Группа:</p><p>АДБ-22-07</p>
-            <p>Иностранные языки:</p><p>Английский</p>
-            <p>Университет:</p><p>МГТУ "СТАНКИН"</p>
+      <div class="student_data">
+        <div class="student_data_row">
+          <p>Имя:</p>
+          <p>Илья</p>
         </div>
-        <div>
-            <img src="./assets/stankin.png" alt="stankin">
+        <div class="student_data_row">
+          <p>Фамилия:</p>
+          <p>Ефремов</p>
         </div>
-        
+        <div class="student_data_row">
+          <p>Группа:</p>
+          <p>АДБ-22-07</p>
+        </div>
+        <div class="student_data_row">
+          <p>Иностранные языки:</p>
+          <p>Английский</p>
+        </div>
+        <div class="student_data_row">
+          <p>Университет:</p>
+          <p>МГТУ "СТАНКИН"</p>
+        </div>
+      </div>
+      <div>
+        <img class="logo" src="./assets/stankin.svg" alt="stankin" />
+      </div>
     </main>
-</body>
-<style>
+  </body>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+
+      background-color: aqua;
+    }
+
+    ::selection {
+      color: white;
+      background: #101075;
+    }
+
     main {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
     }
 
     main img {
-        justify-self: flex-start;
-       
+      justify-self: flex-start;
     }
-    
-    .student_data {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
 
+    .logo {
+      height: 200px;
+
+      user-select: none;
+    }
+
+    .student_data {
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .student_data p {
-        margin: 0;
+      margin: 0;
 
-        font-size: 20px;
+      font-size: 20px;
+    }
+
+    .student_data_row {
+      width: 60%;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
 
     .student_data p:nth-child(2n) {
-        color: red;
+      color: red;
     }
-</style>
+
+    canvas {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+
+      opacity: 0.5;
+    }
+
+    @keyframes move_wave {
+      0% {
+        transform: translateX(0) translateZ(0) scaleY(1);
+      }
+      50% {
+        transform: translateX(-25%) translateZ(0) scaleY(0.55);
+      }
+      100% {
+        transform: translateX(-50%) translateZ(0) scaleY(1);
+      }
+    }
+    .waveWrapper {
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      margin: auto;
+    }
+    .waveWrapperInner {
+      position: absolute;
+      width: 100%;
+      overflow: hidden;
+      height: 100%;
+
+      opacity: 0.1;
+      background-image: linear-gradient(to top, #101075 20%, #ffffff 80%);
+    }
+    .bgTop {
+      opacity: 0.5;
+    }
+    .bgMiddle {
+      opacity: 0.75;
+    }
+    .bgBottom {
+    }
+    .wave {
+      position: absolute;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background-repeat: repeat no-repeat;
+      background-position: 0 bottom;
+      transform-origin: center bottom;
+    }
+    .waveTop {
+      background-size: 50% 100px;
+    }
+    .waveAnimation .waveTop {
+      animation: move-wave 3s;
+      -webkit-animation: move-wave 3s;
+      -webkit-animation-delay: 1s;
+      animation-delay: 1s;
+    }
+    .waveMiddle {
+      background-size: 50% 120px;
+    }
+    .waveAnimation .waveMiddle {
+      animation: move_wave 10s linear infinite;
+    }
+    .waveBottom {
+      background-size: 50% 100px;
+    }
+    .waveAnimation .waveBottom {
+      animation: move_wave 15s linear infinite;
+    }
+  </style>
+  <script>
+    const canvas = document.querySelector("canvas");
+    const ctx = canvas.getContext("2d");
+
+    let mouseMoved = false;
+
+    const pointer = {
+      x: 0.5 * window.innerWidth,
+      y: 0.5 * window.innerHeight,
+    };
+    const params = {
+      pointsNumber: 40,
+      widthFactor: 0.3,
+      mouseThreshold: 0.6,
+      spring: 0.4,
+      friction: 0.5,
+    };
+
+    const trail = new Array(params.pointsNumber);
+    for (let i = 0; i < params.pointsNumber; i++) {
+      trail[i] = {
+        x: pointer.x,
+        y: pointer.y,
+        dx: 0,
+        dy: 0,
+      };
+    }
+
+    window.addEventListener("click", (e) => {
+      updateMousePosition(e.pageX, e.pageY);
+    });
+    window.addEventListener("mousemove", (e) => {
+      mouseMoved = true;
+      updateMousePosition(e.pageX, e.pageY);
+    });
+    window.addEventListener("touchmove", (e) => {
+      mouseMoved = true;
+      updateMousePosition(e.targetTouches[0].pageX, e.targetTouches[0].pageY);
+    });
+
+    function updateMousePosition(eX, eY) {
+      pointer.x = eX;
+      pointer.y = eY;
+    }
+
+    setupCanvas();
+    update(0);
+    window.addEventListener("resize", setupCanvas);
+
+    function update(t) {
+      // for intro motion
+      if (!mouseMoved) {
+        pointer.x =
+          (0.5 + 0.3 * Math.cos(0.002 * t) * Math.sin(0.005 * t)) *
+          window.innerWidth;
+        pointer.y =
+          (0.5 + 0.2 * Math.cos(0.005 * t) + 0.1 * Math.cos(0.01 * t)) *
+          window.innerHeight;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      trail.forEach((p, pIdx) => {
+        const prev = pIdx === 0 ? pointer : trail[pIdx - 1];
+        const spring = pIdx === 0 ? 0.4 * params.spring : params.spring;
+        p.dx += (prev.x - p.x) * spring;
+        p.dy += (prev.y - p.y) * spring;
+        p.dx *= params.friction;
+        p.dy *= params.friction;
+        p.x += p.dx;
+        p.y += p.dy;
+      });
+
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(trail[0].x, trail[0].y);
+
+      for (let i = 1; i < trail.length - 1; i++) {
+        const xc = 0.5 * (trail[i].x + trail[i + 1].x);
+        const yc = 0.5 * (trail[i].y + trail[i + 1].y);
+        ctx.quadraticCurveTo(trail[i].x, trail[i].y, xc, yc);
+        ctx.lineWidth = params.widthFactor * (params.pointsNumber - i);
+        ctx.stroke();
+      }
+      ctx.lineTo(trail[trail.length - 1].x, trail[trail.length - 1].y);
+      ctx.stroke();
+
+      window.requestAnimationFrame(update);
+    }
+
+    function setupCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  </script>
 </html>
