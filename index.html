@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilya Efremov ADB-22-07</title>
+</head>
+<body>
+    <main>
+        <div class="student_data">
+            <p>Имя:</p><p>Илья</p>
+            <p>Фамилия:</p><p>Ефремов</p>
+            <p>Группа:</p><p>АДБ-22-07</p>
+            <p>Иностранные языки:</p><p>Английский</p>
+            <p>Университет:</p><p>МГТУ "СТАНКИН"</p>
+        </div>
+        <div>
+            <img src="./assets/stankin.png" alt="stankin">
+        </div>
+        
+    </main>
+</body>
+<style>
+    main {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+    main img {
+        justify-self: flex-start;
+       
+    }
+    
+    .student_data {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+
+    }
+
+    .student_data p {
+        margin: 0;
+
+        font-size: 20px;
+    }
+
+    .student_data p:nth-child(2n) {
+        color: red;
+    }
+</style>
+</html>
